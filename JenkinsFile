@@ -3,8 +3,7 @@ pipeline {
       docker {
           label 'linux'
           image 'maven:3.6.0-jdk-8-alpine'
-          args containerSettings()
-          reuseNode true
+           reuseNode true
       }
   }
   options {
