@@ -22,6 +22,20 @@
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
   </properties>
 
+<profiles>
+<profile>
+<id>sonar</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<!-- Optional URL to server. Default value is http://localhost:9000 -->
+<sonar.host.url>
+http://ec2-3-16-157-114.us-east-2.compute.amazonaws.com:9000/
+</sonar.host.url>
+</properties>
+</profile>
+</profiles>
   <build>
     <plugins>
       <plugin>
