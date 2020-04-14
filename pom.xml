@@ -39,7 +39,7 @@ http://ec2-3-16-157-114.us-east-2.compute.amazonaws.com:9000/
   <distributionManagement>
     <snapshotRepository>
       <id>nexus-snapshots</id>
-      <url>http://ec2-3-21-56-27.us-east-2.compute.amazonaws.com/:8081/repository/maven-snapshots/</url>
+      <url>http://ec2-3-21-56-27.us-east-2.compute.amazonaws.com:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
   <build>
