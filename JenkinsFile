@@ -1,17 +1,11 @@
 pipeline {
   agent {
       docker {
-          label 'linux'
-          image 'maven:3.6.0-jdk-8-alpine'
+           image 'maven:3.6.0-jdk-8-alpine'
            reuseNode true
       }
   }
-  options {
-      timestamps()
-      buildDiscarder(logRotator(numToKeepStr: '5'))
-      timeout(time: 1, unit: 'HOURS')
-  }
-  stages {
+   stages {
     stage('Build and Test') {
        steps {
          withMaven {
