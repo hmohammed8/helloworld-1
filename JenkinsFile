@@ -1,0 +1,80 @@
+pipeline {
+  agent {
+      docker {
+          label 'linux'
+          image 'maven:3.6.0-jdk-8-alpine'
+          args containerSettings()
+          reuseNode true
+      }
+  }
+  options {
+      timestamps()
+      buildDiscarder(logRotator(numToKeepStr: '5'))
+      timeout(time: 1, unit: 'HOURS')
+  }
+  stages {
+    stage('Build and Test') {
+       steps {
+         withMaven {
+            sh 'mvn clean install'
+            junit '**/surefire-reports/*.xml'
+         }
+       }
+    }
+    stage('Publish Artifacts') {
+      when {
+        anyOf {
+              branch 'master'
+              branch 'develop'
+            }
+        }
+        steps {
+          withMaven {
+            sh 'mvn deploy -DskipTests'
+          }
+        }
+      }
+      stage('Continuous SonarQube Analysis') {
+       when {
+          anyOf {
+                branch 'master'
+                branch 'develop'
+              }
+          }
+          steps {
+            withSonarQubeEnv('ec2-3-16-157-114.us-east-2.compute.amazonaws.com') {
+              withMaven {
+                sh "mvn org.owasp:dependency-check-maven:aggregate sonar:sonar ${persistedSonarAnalysisOptions()}"
+              }
+            }
+          }
+      }
+      stage('SonarQube-Reviewer') {
+          when {
+              anyOf {
+                  changeRequest()
+              }
+          }
+          steps {
+              withSonarQubeEnv('ec2-3-16-157-114.us-east-2.compute.amazonaws.com') {
+                withCredentials(sonarReviewer()) {
+                  withMaven {
+                     sh "mvn sonar:sonar ${passthroughSonarAnalysisOptions()}"
+                  }
+              }
+           }
+        }
+     }
+  }
+  post {
+    changed {
+      email isMainlineBranch() ? leadDeveloper() : nobody()
+    }
+    regression {
+      email isChangeRequest() ? committers() : nobody()
+    }
+    success {
+      email isChangeRequest() ? committers() : nobody()
+    }
+  }
+}
