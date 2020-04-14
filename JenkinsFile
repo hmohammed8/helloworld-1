@@ -8,10 +8,10 @@ pipeline {
    stages {
     stage('Build and Test') {
        steps {
-         withMaven {
+        
             sh 'mvn clean install'
             junit '**/surefire-reports/*.xml'
-         }
+        
        }
     }
     stage('Publish Artifacts') {
@@ -22,9 +22,9 @@ pipeline {
             }
         }
         steps {
-          withMaven {
+          
             sh 'mvn deploy -DskipTests'
-          }
+          
         }
       }
       stage('Continuous SonarQube Analysis') {
@@ -35,11 +35,11 @@ pipeline {
               }
           }
           steps {
-            withSonarQubeEnv('ec2-3-16-157-114.us-east-2.compute.amazonaws.com') {
-              withMaven {
+            
+             
                 sh "mvn org.owasp:dependency-check-maven:aggregate sonar:sonar ${persistedSonarAnalysisOptions()}"
-              }
-            }
+              
+            
           }
       }
       stage('SonarQube-Reviewer') {
@@ -51,9 +51,9 @@ pipeline {
           steps {
               withSonarQubeEnv('ec2-3-16-157-114.us-east-2.compute.amazonaws.com') {
                 withCredentials(sonarReviewer()) {
-                  withMaven {
+                 
                      sh "mvn sonar:sonar ${passthroughSonarAnalysisOptions()}"
-                  }
+                  
               }
            }
         }
