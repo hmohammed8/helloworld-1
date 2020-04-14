@@ -9,7 +9,7 @@ pipeline {
     stage('Build and Test') {
        steps {
         
-            sh 'mvn clean install'
+            sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/Maven3/bin/mvn clean install'
             junit '**/surefire-reports/*.xml'
         
        }
@@ -23,7 +23,7 @@ pipeline {
         }
         steps {
           
-            sh 'mvn deploy -DskipTests'
+            sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/Maven3/bin/mvn deploy -DskipTests'
           
         }
       }
@@ -37,7 +37,7 @@ pipeline {
           steps {
             
              
-                sh "mvn org.owasp:dependency-check-maven:aggregate sonar:sonar ${persistedSonarAnalysisOptions()}"
+                sh "/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/Maven3/bin/mvn org.owasp:dependency-check-maven:aggregate sonar:sonar ${persistedSonarAnalysisOptions()}"
               
             
           }
@@ -52,7 +52,7 @@ pipeline {
               withSonarQubeEnv('ec2-3-16-157-114.us-east-2.compute.amazonaws.com') {
                 withCredentials(sonarReviewer()) {
                  
-                     sh "mvn sonar:sonar ${passthroughSonarAnalysisOptions()}"
+                     sh "/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/Maven3/bin/mvn sonar:sonar ${passthroughSonarAnalysisOptions()}"
                   
               }
            }
