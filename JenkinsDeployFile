@@ -1,0 +1,31 @@
+pipeline {
+  agent {
+      any {
+           
+      }
+  }
+   parameters {
+        string( name: 'GROUP_ID', defaultValue: 'com.coveros.demo')
+        string( name: 'ARTIFACT_ID', defaultValue: 'helloworld')
+        string( name: 'VERSION', defaultValue: '1.1-SNAPSHOT')
+        string( name: 'CLASSIFIER', defaultValue: '')
+        string( name: 'GROUP', defaultValue: 'debug')
+        string( name: 'SERVICE_NAME', defaultValue: 'helloworld')
+        string( name: 'ARGS', defaultValue: '')
+        choice( name: 'ENVIRONMENT', choices: ['test1', 'test2', 'test3', 'test4', 'ft', 'sit', 'sat', 'prod'])
+        string( name: 'BASE_IMAGE', defaultValue: 'openjdk:8u131-jre-alpine')    
+        booleanParam( name: 'USE_CURRENTLY_PUBLISHED_IMAGE', defaultValue: false)
+        booleanParam( name: 'HAS_HEALTHCHECK', defaultValue: false )
+    }
+   stages {
+    stage('Download Artifact') {
+       steps {
+        
+            sh "./downloadArtifact.sh ${GROUP_ID} ${ARTIFACT_ID} ${VERSION} jar ${SERVICE_NAME}.jar ${params.CLASSIFIER}"
+                    
+       }
+    }
+        
+  }
+  
+}
