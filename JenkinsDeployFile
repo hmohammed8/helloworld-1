@@ -20,7 +20,7 @@ pipeline {
    stages {
     stage('Download Artifact') {
        steps {
-            chmod 777 /var/jenkins_home/workspace/deploy/downloadArtifact.sh
+            
             sh "./downloadArtifact.sh ${GROUP_ID} ${ARTIFACT_ID} ${VERSION} jar ${SERVICE_NAME}.jar ${params.CLASSIFIER}"
                     
        }
