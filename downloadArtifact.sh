@@ -12,9 +12,16 @@ classifier=$6
 
 groupIdUrl="${groupId//.//}"
 
-versionTimestamped=`curl -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'`
+versionTimestamped=`curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'`
 
-curl -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-${versionTimestamped}${classifier}.${type}" -O ${targetFile}
+if [  "" == "$versionTimestamped" ]; then
+       echo "============= WARNING ================="
+       echo "Unable to download artifact information, double-check that the url above exists in SonaType nexus as timestamp is null"
+       echo "======================================="
+       exit 255
+   fi
+
+curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -O ${targetFile}
 
 #if [[ ${version} == *"SNAPSHOT"* ]]; then repo_type="snapshots"; else repo_type="releases"; fi
 
@@ -25,12 +32,7 @@ curl -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifact
  #else
   # echo wget -q -O- --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml"
   # versionTimestamped=$(wget -q -O- --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g')
-   if [  "" == "$versionTimestamped" ]; then
-       echo "============= WARNING ================="
-       echo "Unable to download artifact information, double-check that the url above exists in SonaType nexus"
-       echo "======================================="
-       exit 255
-   fi
+   
    #echo wget -q --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-${versionTimestamped}${classifier}.${type}" -O ${targetFile}
   # wget -q --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-${versionTimestamped}${classifier}.${type}" -O ${targetFile}
    if [  ! -f "${targetFile}" ]; then
