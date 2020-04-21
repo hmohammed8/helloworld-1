@@ -21,7 +21,7 @@ if [  "" == "$versionTimestamped" ]; then
        exit 255
    fi
 
-curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -O ${targetFile}
+curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -o ${targetFile}
 
 #if [[ ${version} == *"SNAPSHOT"* ]]; then repo_type="snapshots"; else repo_type="releases"; fi
 
