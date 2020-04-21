@@ -35,7 +35,7 @@ curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artif
    
    #echo wget -q --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-${versionTimestamped}${classifier}.${type}" -O ${targetFile}
   # wget -q --no-check-certificate "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-${versionTimestamped}${classifier}.${type}" -O ${targetFile}
-   if [  ! -f "${targetFile}" ]; then
+   if [  ! -f "/var/jenkins_home/workspace/deploy/${targetFile}" ]; then
        echo "============= WARNING ================="
        echo "Unable to download artifact, double-check that the artifact classifier ${classifier} is correct in SonaType nexus"
        echo "======================================="
