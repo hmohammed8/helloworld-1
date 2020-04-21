@@ -41,5 +41,5 @@ curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artif
        echo "======================================="
        exit 255
    fi
- fi
+ 
  
