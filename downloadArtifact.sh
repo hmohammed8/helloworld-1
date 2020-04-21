@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-repo="http://ec2-3-22-172-119.us-east-2.compute.amazonaws.com:8081/"
+repo="http://ec2-3-22-172-119.us-east-2.compute.amazonaws.com:8081"
 groupId=$1
 artifactId=$2
 version=$3
