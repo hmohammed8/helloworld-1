@@ -21,9 +21,9 @@ if [  "" == "$versionTimestamped" ]; then
        echo "======================================="
        exit 255
    fi
-curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -o ${targetFile}
+curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -o /tmp/${targetFile}
 
-   if [  ! -f "${JENKINS_HOME}/workspace/$(JOB_NAME}/${targetFile}" ]; then
+   if [  ! -f "/tmp/${targetFile}" ]; then
        echo "============= WARNING ================="
        echo "Unable to download artifact, double-check that the artifact classifier ${classifier} is correct in SonaType nexus"
        echo "======================================="
