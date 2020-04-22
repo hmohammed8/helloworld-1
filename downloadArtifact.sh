@@ -32,7 +32,7 @@ curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifact
        echo "======================================="
        exit 255
    fi
-   docker build --tag helloworld
+   docker build --tag helloworld .
    
  
  
