@@ -33,6 +33,7 @@ curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifact
        exit 255
    fi
    docker build --tag helloworld .
+   docker run -p 8082:8082 helloworld
    
  
  
