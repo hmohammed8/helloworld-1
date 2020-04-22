@@ -12,7 +12,13 @@ classifier=$6
 
 groupIdUrl="${groupId//.//}"
 
-versionTimestamped=`curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'`
+if [[ $version == *"SNAPSHOT"*]]; then
+mavenrespos=maven-snapshots
+else
+mavenrespos=maven-releases
+fi
+
+versionTimestamped=`curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'`
 
 if [  "" == "$versionTimestamped" ]; then
        echo "============= WARNING ================="
@@ -21,7 +27,7 @@ if [  "" == "$versionTimestamped" ]; then
        exit 255
    fi
 
-curl -v -u admin:admin "${repo}/repository/maven-snapshots/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -o ${targetFile}
+curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifactId}/${version}/${artifactId}-$versionTimestamped.${type}" -o ${targetFile}
 
 #if [[ ${version} == *"SNAPSHOT"* ]]; then repo_type="snapshots"; else repo_type="releases"; fi
 
