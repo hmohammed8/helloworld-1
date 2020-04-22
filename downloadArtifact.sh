@@ -9,7 +9,7 @@ type=$4
 targetFile=$5
 classifier=$6
 groupIdUrl="${groupId//.//}"
-if [[ $version == *"SNAPSHOT"* ]]; then
+if [[ $version == *"SNAPSHOT" ]]; then
 mavenrespos=maven-snapshots
 else
 mavenrespos=maven-releases
