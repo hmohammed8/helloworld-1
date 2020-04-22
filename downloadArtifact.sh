@@ -9,11 +9,12 @@ type=$4
 targetFile=$5
 classifier=$6
 groupIdUrl="${groupId//.//}"
-if [[ $version == *"SNAPSHOT"*]]; then
+if [[ $version == *"SNAPSHOT"* ]]; then
 mavenrespos=maven-snapshots
 else
 mavenrespos=maven-releases
 fi
+echo $mavenrespos
 versionTimestamped=`curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifactId}/${version}/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'`
 if [  "" == "$versionTimestamped" ]; then
        echo "============= WARNING ================="
