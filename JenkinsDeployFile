@@ -25,6 +25,11 @@ pipeline {
                     
        }
     }
+    stage('Deploy') {
+       steps {
+            docker service create --name helloworld --detach       
+       }
+    }
         
   }
   
