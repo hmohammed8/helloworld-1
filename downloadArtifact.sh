@@ -32,7 +32,8 @@ curl -v -u admin:admin "${repo}/repository/$mavenrespos/${groupIdUrl}/${artifact
        echo "======================================="
        exit 255
    fi
-   
-   docker service create --name helloworld --detach
+   docker build --tag $repo/repository/docker-haseeb/${artifactId}:${version} .
+   docker push $repo/repository/docker-haseeb/${artifactId}:${version}
+   docker service create --name helloworld --detach $repo/repository/docker-haseeb/${artifactId}:${version}
  
  
