@@ -18,19 +18,14 @@ pipeline {
         booleanParam( name: 'HAS_HEALTHCHECK', defaultValue: false )
     }
    stages {
-    stage('Download Artifact') {
+    stage('Download Artifact and Deploy') {
        steps {
             sh "chmod 777 $JENKINS_HOME/workspace/$JOB_NAME/downloadArtifact.sh"
             sh "./downloadArtifact.sh ${GROUP_ID} ${ARTIFACT_ID} ${VERSION} jar ${SERVICE_NAME}.jar ${params.CLASSIFIER}"
                     
        }
     }
-    stage('Deploy') {
-       steps {
-            docker service create --name helloworld --detach       
-       }
-    }
-        
+           
   }
   
 }
