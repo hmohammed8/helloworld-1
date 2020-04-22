@@ -9,7 +9,7 @@ type=$4
 targetFile=$5
 classifier=$6
 groupIdUrl="${groupId//.//}"
-count=`grep SNAPSHOT ${version}|wc -l`
+count=`echo ${version}|grep SNAPSHOT|wc -l`
 if [ $count -gt 0 ] 
 then
 mavenrespos=maven-snapshots
