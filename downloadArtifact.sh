@@ -9,7 +9,8 @@ type=$4
 targetFile=$5
 classifier=$6
 groupIdUrl="${groupId//.//}"
-if [ ${version} == *SNAP* ] 
+count=`grep SNAPSHOT ${version}|wc -l`
+if [ $count -gt 0 ] 
 then
 mavenrespos=maven-snapshots
 else
